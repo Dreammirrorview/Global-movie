@@ -1,0 +1,581 @@
+/* Movie Streaming Platform - Professional Design
+Owner: Olawale Abdul-Ganiyu */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #e50914; /* Netflix red */
+    --secondary-color: #141414;
+    --accent-color: #221f1f;
+    --text-color: #ffffff;
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --info-color: #2196f3;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Navigation */
+nav {
+    background-color: rgba(20, 20, 20, 0.95);
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: var(--text-color);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 1rem;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+/* Wallet Dropdown */
+.wallet-container {
+    position: relative;
+}
+
+.wallet-btn {
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.wallet-btn:hover {
+    transform: scale(1.05);
+}
+
+.wallet-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--accent-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    min-width: 350px;
+    box-shadow: var(--shadow);
+    display: none;
+    margin-top: 1rem;
+    border: 1px solid #333;
+}
+
+.wallet-dropdown.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.balance-section {
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+    margin-bottom: 1rem;
+}
+
+.balance-amount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--success-color);
+}
+
+.balance-label {
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1920');
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 70px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    color: #ddd;
+}
+
+/* Movie Grid */
+.movies-section {
+    padding: 4rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.movie-card {
+    background-color: var(--accent-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.movie-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.movie-info {
+    padding: 1rem;
+}
+
+.movie-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.movie-platform {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.movie-year {
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Video Player Modal */
+.player-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-modal.active {
+    display: flex;
+    animation: fadeIn 0.5s ease;
+}
+
+.player-container {
+    width: 90%;
+    max-width: 1200px;
+    background-color: var(--accent-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.video-player {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background-color: #000;
+    position: relative;
+}
+
+.video-player video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.player-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--secondary-color);
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.control-btn:hover {
+    background-color: #f40612;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.volume-slider {
+    width: 100px;
+    cursor: pointer;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 8px;
+    background-color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+.close-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+
+.close-btn:hover {
+    background-color: #444;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ddd;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #444;
+    border-radius: var(--border-radius);
+    background-color: #2a2a2a;
+    color: white;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+/* Bitcoin Section */
+.bitcoin-section {
+    background: linear-gradient(135deg, #f7931a 0%, #ffb347 100%);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.bitcoin-balance {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.bitcoin-address {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    margin-top: 0.5rem;
+    font-family: monospace;
+    font-size: 0.9rem;
+    word-break: break-all;
+    color: #333;
+}
+
+/* Device Info Section */
+.device-info {
+    background-color: #1a1a1a;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
+    border: 1px solid #333;
+}
+
+.device-info h4 {
+    color: var(--info-color);
+    margin-bottom: 0.5rem;
+}
+
+.device-info p {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin: 0.3rem 0;
+}
+
+.device-info span {
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background-color: var(--success-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 3000;
+    display: none;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.notification.show {
+    display: block;
+}
+
+/* Owner Info */
+.owner-info {
+    text-align: center;
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-top: 3rem;
+}
+
+.owner-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.owner-info p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #333;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    color: #888;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    flex-grow: 1;
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    margin-bottom: -2px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .wallet-dropdown {
+        min-width: 280px;
+        right: -50px;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .player-container {
+        width: 100%;
+        border-radius: 0;
+    }
+    
+    .control-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Loading Spinner */
+.loading {
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Privacy Notice */
+.privacy-notice {
+    background-color: rgba(229, 9, 20, 0.1);
+    border: 1px solid var(--primary-color);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin: 2rem auto;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.privacy-notice p {
+    color: #ff9999;
+    font-size: 0.9rem;
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamHub - Premium Movie Platform | Owner: Olawale Abdul-Ganiyu</title>
+    <meta name="description" content="Watch premium movies from Netflix, Marvel, Disney and more. Earn rewards for watching!">
+    <link rel="stylesheet" href="style.css">
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">STREAM<span>HUB</span></div>
+        <div class="nav-links">
+            <a href="#movies">Movies</a>
+            <a href="#about">About</a>
+            <div class="wallet-container">
+                <button class="wallet-btn" onclick="toggleWallet()">
+                    <span>💰</span> Wallet
+                </button>
+                <div class="wallet-dropdown" id="walletDropdown">
+                    <div class="balance-section">
+                        <p class="balance-label">Available Balance</p>
+                        <p class="balance-amount">$<span id="walletBalance">0.00</span></p>
+                    </div>
+                    
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('withdraw')">Withdraw</button>
+                        <button class="tab-btn" onclick="switchTab('bitcoin')">Bitcoin</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="withdrawTab">
+                        <form id="withdrawForm" onsubmit="processWithdrawal(event)">
+                            <div class="form-group">
+                                <label for="fullName">Full Name *</label>
+                                <input type="text" id="fullName" required placeholder="Enter your full name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bankName">Bank Name *</label>
+                                <select id="bankName" required>
+                                    <option value="">Select Bank</option>
+                                    <option value="opay">Opay</option>
+                                    <option value="palmpay">PalmPay</option>
+                                    <option value="moniepoint">Moniepoint</option>
+                                    <option value="gtbank">GTBank</option>
+                                    <option value="access">Access Bank</option>
+                                    <option value="uba">UBA</option>
+                                    <option value="firstbank">First Bank</option>
+                                    <option value="zenith">Zenith Bank</option>
+                                    <option value="other">Other Bank</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="accountNumber">Account Number *</label>
+                                <input type="text" id="accountNumber" required placeholder="10-digit account number" maxlength="10" pattern="[0-9]{10}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number *</label>
+                                <input type="tel" id="phoneNumber" required placeholder="Your phone number" pattern="[0-9]{11}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="withdrawAmount">Amount to Withdraw ($) *</label>
+                                <input type="number" id="withdrawAmount" required min="50" placeholder="Minimum $50">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="purpose">Purpose</label>
+                                <textarea id="purpose" rows="2" placeholder="Reason for withdrawal"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">Process Withdrawal</button>
+                        </form>
+                    </div>
+                    
+                    <div class="tab-content" id="bitcoinTab">
+                        <div class="bitcoin-section">
+                            <p class="balance-label">Bitcoin Balance</p>
+                            <p class="bitcoin-balance">₿ <span id="bitcoinBalance">0.0003</span></p>
+                            <div class="bitcoin-address" id="bitcoinAddress">
+                                bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+                            </div>
+                            <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">Tap to copy address</p>
+                        </div>
+                        
+                        <form id="bitcoinWithdrawForm" onsubmit="processBitcoinWithdrawal(event)">
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label for="recipientAddress">Recipient Bitcoin Address *</label>
+                                <input type="text" id="recipientAddress" required placeholder="Enter Bitcoin wallet address">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bitcoinAmount">Amount (BTC) *</label>
+                                <input type="number" id="bitcoinAmount" required min="0.00001" step="0.00001" placeholder="Minimum 0.00001 BTC">
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">Send Bitcoin</button>
+                        </form>
+                    </div>
+                    
+                    <div class="device-info">
+                        <h4>📱 Device Information</h4>
+                        <p>Network: <span id="deviceNetwork">Detecting...</span></p>
+                        <p>Device: <span id="deviceName">Detecting...</span></p>
+                        <p>Platform: <span id="devicePlatform">Detecting...</span></p>
+                        <p>Screen: <span id="deviceScreen">Detecting...</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to StreamHub</h1>
+        <p>Watch premium movies from Netflix, Marvel, Disney and more. Earn $50 for every movie you watch!</p>
+    </section>
+
+    <!-- Privacy Notice -->
+    <div class="privacy-notice">
+        <p>⚠️ <strong>Private Site:</strong> This is a personal website owned by Olawale Abdul-Ganiyu. No customers or other users are permitted to use this site. By using this site, you acknowledge that it may expose your privacy.</p>
+    </div>
+
+    <!-- Movies Section -->
+    <section class="movies-section" id="movies">
+        <h2 class="section-title">🎬 Premium Movies Collection</h2>
+        <div class="movies-grid" id="moviesGrid">
+            <!-- Movies will be loaded dynamically -->
+        </div>
+    </section>
+
+    <!-- Video Player Modal -->
+    <div class="player-modal" id="playerModal">
+        <div class="player-container">
+            <button class="close-btn" onclick="closePlayer()">✕</button>
+            <div class="video-player">
+                <video id="mainVideo" controls>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="player-controls">
+                <button class="control-btn" onclick="togglePlayPause()">▶️ Play</button>
+                <button class="control-btn" onclick="stopVideo()">⏹️ Stop</button>
+                <button class="control-btn" onclick="toggleFullscreen()">🔲 Fullscreen</button>
+                <div class="volume-control">
+                    <span>🔊</span>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100" onchange="changeVolume(this.value)">
+                </div>
+                <div class="progress-bar" id="progressBar" onclick="seekVideo(event)">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <button class="control-btn" onclick="toggleMute()">🔇</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Owner Info -->
+    <section class="owner-info" id="about">
+        <h3>Owner Information</h3>
+        <p><strong>Name:</strong> Olawale Abdul-Ganiyu</p>
+        <p><strong>Platform:</strong> StreamHub Premium Movie Platform</p>
+        <p><strong>License:</strong> Private Personal Use Only</p>
+        <p>&copy; 2024 StreamHub. All Rights Reserved.</p>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
